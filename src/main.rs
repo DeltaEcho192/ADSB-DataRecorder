@@ -2,18 +2,6 @@ use serde::Deserialize;
 use reqwest::Error;
 mod database;
 
-#[derive(Deserialize, Debug)]
-struct Flight {
-    hex: String,
-    flight: String,
-    lat: f64,
-    lon: f64,
-    altitude: i32,
-    track: i32,
-    speed: i32
-}
-
-
 fn main()
 {
     get_data();
