@@ -1,7 +1,5 @@
 use mysql::*;
 use mysql::prelude::*;
-use std::time::Duration;
-use std::thread::sleep;
 use serde::Deserialize;
 
 
