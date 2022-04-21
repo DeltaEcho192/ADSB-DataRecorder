@@ -1,7 +1,9 @@
 use mysql::*;
 use mysql::prelude::*;
-use chrono::prelude::*;
+use std::time::Duration;
+use std::thread::sleep;
 use serde::Deserialize;
+
 
 #[derive(Deserialize, Debug)]
 pub struct Flight {
@@ -11,7 +13,7 @@ pub struct Flight {
     pub lon: f64,
     pub altitude: i32,
     pub track: i32,
-    pub speed: i32
+    pub speed: i32,
 }
 
 pub fn insert(flight_data:Vec<Flight>)
@@ -23,6 +25,7 @@ pub fn insert(flight_data:Vec<Flight>)
     .db_name(Some("flight_data"));
     let pool = Pool::new(opts).unwrap();
     let mut conn = pool.get_conn().unwrap();
+   
     conn.exec_batch(
         r"INSERT INTO test_data (hex, flight, lat,lon,altitude,track,speed)
           VALUES (:hex, :flight, :lat,:lon,:altitude,:track,:speed)",
@@ -33,12 +36,7 @@ pub fn insert(flight_data:Vec<Flight>)
             "lon" => p.lon,
             "altitude" => p.altitude,
             "track" => p.track,
-            "speed" => p.speed
+            "speed" => p.speed,
         })
-    );
+    ).unwrap();
 } 
-
-pub fn hello_world()
-{
-    println!("{}", "Test");
-}
