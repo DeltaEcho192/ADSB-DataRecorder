@@ -25,7 +25,7 @@ pub fn insert(flight_data:Vec<Flight>)
     let mut conn = pool.get_conn().unwrap();
    
     conn.exec_batch(
-        r"INSERT INTO test_data (hex, flight, lat,lon,altitude,track,speed)
+        r"INSERT INTO flight_prod (hex, flight, lat,lon,altitude,track,speed)
           VALUES (:hex, :flight, :lat,:lon,:altitude,:track,:speed)",
         flight_data.iter().map(|p| params! {
             "hex" => &p.hex,
