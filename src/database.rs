@@ -17,7 +17,7 @@ pub struct Flight {
 pub fn insert(flight_data:Vec<Flight>)
 {
     let opts = OptsBuilder::new()
-    .ip_or_hostname(Some("localhost"))
+    .ip_or_hostname(Some("192.168.1.119"))
     .user(Some("root"))
     .pass(Some("xxmaster"))
     .db_name(Some("flight_data"));
