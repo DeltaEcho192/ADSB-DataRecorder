@@ -1,0 +1,15 @@
+FROM ubuntu:20.04
+COPY . .
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update
+RUN apt-get -y upgrade
+RUN apt-get -y install git-core
+RUN apt-get -y install git
+RUN apt-get -y install make
+RUN apt-get -y install libusb-1.0-0-dev  
+RUN apt-get install -y pkg-config
+RUN apt-get install -y gcc
+RUN apt-get install -y librtlsdr-dev
+RUN make
+
+ENTRYPOINT [ "./dump1090" ]
