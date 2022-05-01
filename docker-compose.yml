@@ -2,12 +2,47 @@ version: "3"
 
 services:
   dump1090:
-    image: jraviles/dump1090
+    container_name: dump1090
+    build:
+        context: ./dump1090
     ports:
-      - 8080:8080/tcp
+      - 8080:8080
+      - 30001:30001
+      - 30002:30002
+      - 30003:30003
     devices:
       - /dev/bus/usb
+    command: '--net --interactive'
+    privileged: true
     restart: unless-stopped
   adsb:
-    build: .
+    container_name: rust_adsb
+    build:
+      context: ./rust_adsb
     restart: unless-stopped
+    networks:
+            default:
+  mysql:
+    platform: linux/x86_64
+    container_name: adsb_mysql
+    restart: always
+    image: mysql
+    command: --init-file /data/application/setup.sql
+    ports: 
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 'xxmaster'
+      MYSQL_USER: 'flight'
+      MYSQL_PASSWORD: 'xxmaster'
+      MYSQL_DATABASE: 'flight_data'
+    volumes:
+      - ./mysql/setup.sql:/data/application/setup.sql
+      - adsb_vol:/var/lib/mysql
+    networks:
+            default:
+volumes:
+  adsb_vol:
+  
+networks:
+    default:
+        driver: bridge
